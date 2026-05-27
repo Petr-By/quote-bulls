@@ -1,27 +1,34 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import GameBoard from '@/components/GameBoard';
+import { Suspense } from 'react';
 
 interface QuoteMeta {
   id: number;
   wordCount: number;
 }
 
-export default function FreePlayPage() {
+function PlayGame() {
+  const searchParams = useSearchParams();
+  const pinId = searchParams.get('id'); // optional pinned quote ID
+
   const [quote, setQuote] = useState<QuoteMeta | null>(null);
   const [gameKey, setGameKey] = useState(0);
 
-  const fetchRandomQuote = async () => {
-    const res = await fetch('/api/random');
+  const fetchQuote = async (id?: string | null) => {
+    const url = id ? `/api/random?id=${id}` : '/api/random';
+    const res = await fetch(url);
     const data = await res.json();
     setQuote(data);
     setGameKey(k => k + 1);
   };
 
   useEffect(() => {
-    fetchRandomQuote();
-  }, []);
+    fetchQuote(pinId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pinId]);
 
   return (
     <main className="min-h-screen bg-zinc-50 px-4 py-8">
@@ -50,15 +57,17 @@ export default function FreePlayPage() {
               quoteId={quote.id}
               mode="free"
             />
-            <div className="text-center mt-8">
-              <button
-                onClick={fetchRandomQuote}
-                className="px-5 py-2 border border-zinc-300 rounded-lg text-sm text-zinc-600
-                           hover:bg-zinc-100 transition-colors"
-              >
-                New quote →
-              </button>
-            </div>
+            {!pinId && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={() => fetchQuote(null)}
+                  className="px-5 py-2 border border-zinc-300 rounded-lg text-sm text-zinc-600
+                             hover:bg-zinc-100 transition-colors"
+                >
+                  New quote →
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <p className="text-center text-zinc-400">Loading…</p>
@@ -66,5 +75,13 @@ export default function FreePlayPage() {
 
       </div>
     </main>
+  );
+}
+
+export default function FreePlayPage() {
+  return (
+    <Suspense fallback={<p className="text-center text-zinc-400 mt-20">Loading…</p>}>
+      <PlayGame />
+    </Suspense>
   );
 }
