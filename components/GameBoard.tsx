@@ -31,6 +31,7 @@ export default function GameBoard({ wordCount, quoteId, mode, posHints }: Props)
   const [reveal, setReveal] = useState<RevealData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const activeRow = rows.length;
   const isGameOver = status !== 'playing';
@@ -165,20 +166,53 @@ export default function GameBoard({ wordCount, quoteId, mode, posHints }: Props)
         <p className="text-center text-red-500 text-sm">{error}</p>
       )}
 
-      {/* Attempt counter + Submit */}
+      {/* Attempt counter + Submit + Show Answer */}
       {!isGameOver && (
-        <div className="flex items-center justify-center gap-4 mt-2">
-          <span className="text-sm text-zinc-500">
-            Attempt {rows.length + 1} / {MAX_ATTEMPTS}
-          </span>
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="px-6 py-2 bg-zinc-800 text-white rounded-lg font-semibold
-                       hover:bg-zinc-700 disabled:opacity-50 transition-colors"
-          >
-            {loading ? 'Checking…' : 'Submit'}
-          </button>
+        <div className="flex flex-col items-center gap-3 mt-2">
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-zinc-500">
+              Attempt {rows.length + 1} / {MAX_ATTEMPTS}
+            </span>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="px-6 py-2 bg-zinc-800 text-white rounded-lg font-semibold
+                         hover:bg-zinc-700 disabled:opacity-50 transition-colors"
+            >
+              {loading ? 'Checking…' : 'Submit'}
+            </button>
+          </div>
+
+          {/* Show answer — confirm first */}
+          {!showConfirm ? (
+            <button
+              onClick={() => setShowConfirm(true)}
+              className="text-xs text-zinc-400 underline hover:text-zinc-600 transition-colors"
+            >
+              Show answer
+            </button>
+          ) : (
+            <div className="flex items-center gap-3 text-sm">
+              <span className="text-zinc-500">Give up and reveal?</span>
+              <button
+                onClick={async () => {
+                  const res = await fetch(`/api/reveal?quoteId=${quoteId}&mode=${mode}`);
+                  const data = await res.json();
+                  setReveal(data);
+                  setStatus('lost');
+                }}
+                className="px-3 py-1 bg-red-500 text-white rounded font-semibold hover:bg-red-600 transition-colors text-xs"
+              >
+                Yes, show it
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-xs underline"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       )}
 
