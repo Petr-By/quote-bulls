@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "text": "Be the change you wish to see in the world",
+    "author": "Mahatma Gandhi"
+  },
+  {
+    "id": 2,
+    "text": "In the middle of every difficulty lies opportunity",
+    "author": "Albert Einstein"
+  },
+  {
+    "id": 3,
+    "text": "It does not matter how slowly you go as long as you do not stop",
+    "author": "Confucius"
+  },
+  {
+    "id": 4,
+    "text": "Life is what happens when you are busy making other plans",
+    "author": "John Lennon"
+  },
+  {
+    "id": 5,
+    "text": "The only way to do great work is to love what you do",
+    "author": "Steve Jobs"
+  },
+  {
+    "id": 6,
+    "text": "In three words I can sum up everything I have learned about life it goes on",
+    "author": "Robert Frost"
+  },
+  {
+    "id": 7,
+    "text": "If you tell the truth you do not have to remember anything",
+    "author": "Mark Twain"
+  },
+  {
+    "id": 8,
+    "text": "A friend is someone who knows all about you and still loves you",
+    "author": "Elbert Hubbard"
+  },
+  {
+    "id": 9,
+    "text": "To live is the rarest thing in the world most people just exist",
+    "author": "Oscar Wilde"
+  },
+  {
+    "id": 10,
+    "text": "Always forgive your enemies nothing annoys them so much",
+    "author": "Oscar Wilde"
+  },
+  {
+    "id": 11,
+    "text": "We accept the love we think we deserve",
+    "author": "Stephen Chbosky"
+  },
+  {
+    "id": 12,
+    "text": "Do one thing every day that scares you",
+    "author": "Eleanor Roosevelt"
+  },
+  {
+    "id": 13,
+    "text": "Well behaved women seldom make history",
+    "author": "Laurel Thatcher Ulrich"
+  },
+  {
+    "id": 14,
+    "text": "You only live once but if you do it right once is enough",
+    "author": "Mae West"
+  },
+  {
+    "id": 15,
+    "text": "In the end it is not the years in your life that count it is the life in your years",
+    "author": "Abraham Lincoln"
+  },
+  {
+    "id": 16,
+    "text": "Never let the fear of striking out keep you from playing the game",
+    "author": "Babe Ruth"
+  },
+  {
+    "id": 17,
+    "text": "Money and success do not change people they merely amplify what is already there",
+    "author": "Will Smith"
+  },
+  {
+    "id": 18,
+    "text": "Not all those who wander are lost",
+    "author": "J.R.R. Tolkien"
+  },
+  {
+    "id": 19,
+    "text": "It is better to be hated for what you are than to be loved for what you are not",
+    "author": "Andre Gide"
+  },
+  {
+    "id": 20,
+    "text": "A room without books is like a body without a soul",
+    "author": "Marcus Tullius Cicero"
+  }
+]
