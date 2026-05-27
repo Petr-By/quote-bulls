@@ -26,6 +26,7 @@ export default function HomePage() {
           wordCount={quote.words.length}
           quoteId={quote.id}
           mode="daily"
+          posHints={quote.pos}
         />
 
         {/* Footer */}

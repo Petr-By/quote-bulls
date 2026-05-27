@@ -7,10 +7,10 @@ export async function GET(req: NextRequest) {
   if (id) {
     const quote = getQuoteById(Number(id));
     if (!quote) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    return NextResponse.json({ id: quote.id, wordCount: quote.words.length });
+    return NextResponse.json({ id: quote.id, wordCount: quote.words.length, posHints: quote.pos });
   }
 
   const quotes = getAllQuotes();
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
-  return NextResponse.json({ id: quote.id, wordCount: quote.words.length });
+  return NextResponse.json({ id: quote.id, wordCount: quote.words.length, posHints: quote.pos });
 }

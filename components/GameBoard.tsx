@@ -19,9 +19,10 @@ interface Props {
   wordCount: number;
   quoteId: number;
   mode: 'daily' | 'free';
+  posHints: string[];
 }
 
-export default function GameBoard({ wordCount, quoteId, mode }: Props) {
+export default function GameBoard({ wordCount, quoteId, mode, posHints }: Props) {
   const [rows, setRows] = useState<SubmittedRow[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string[]>(
     Array(wordCount).fill('')
@@ -139,6 +140,7 @@ export default function GameBoard({ wordCount, quoteId, mode }: Props) {
           key={`active-${activeRow}`}
           wordCount={wordCount}
           isActive={true}
+          posHints={posHints}
           currentGuess={currentGuess}
           onGuessChange={handleGuessChange}
           onSubmit={handleSubmit}
@@ -151,6 +153,7 @@ export default function GameBoard({ wordCount, quoteId, mode }: Props) {
           key={`future-${i}`}
           wordCount={wordCount}
           isActive={false}
+          posHints={posHints}
           currentGuess={[]}
           onGuessChange={() => {}}
           onSubmit={() => {}}

@@ -7,6 +7,7 @@ import type { TileFeedback } from '@/lib/game';
 interface Props {
   wordCount: number;
   isActive: boolean;
+  posHints?: string[];
   feedback?: TileFeedback[];
   submittedWords?: string[];
   currentGuess: string[];
@@ -17,6 +18,7 @@ interface Props {
 export default function GuessRow({
   wordCount,
   isActive,
+  posHints,
   feedback,
   submittedWords,
   currentGuess,
@@ -61,6 +63,7 @@ export default function GuessRow({
           key={i}
           slotIndex={i}
           isActive={isActive}
+          posHint={posHints?.[i]}
           feedback={feedback?.[i]}
           value={isActive ? currentGuess[i] ?? '' : submittedWords?.[i]}
           inputRef={inputRefs.current[i]}

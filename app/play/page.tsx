@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 interface QuoteMeta {
   id: number;
   wordCount: number;
+  posHints: string[];
 }
 
 function PlayGame() {
@@ -56,6 +57,7 @@ function PlayGame() {
               wordCount={quote.wordCount}
               quoteId={quote.id}
               mode="free"
+              posHints={quote.posHints}
             />
             {!pinId && (
               <div className="text-center mt-8">

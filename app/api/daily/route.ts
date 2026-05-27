@@ -7,6 +7,7 @@ export async function GET() {
   return NextResponse.json({
     id: quote.id,
     wordCount: quote.words.length,
-    author: null, // revealed on win/loss
+    posHints: quote.pos,   // POS tag per slot — words never sent
+    author: null,          // revealed on win/loss
   });
 }
