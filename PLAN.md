@@ -82,12 +82,12 @@ quote_bulls/
 - [x] Mock feedback logic (hardcoded POS, distance = random) to test UI
 - [x] Win/loss detection + quote reveal
 
-### Phase 2 — NLP Integration
-- [ ] Python FastAPI service with spaCy `en_core_web_md`
-- [ ] `POST /analyze` endpoint: takes `{guess: string[], target: string[]}` → returns POS colors + distances
-- [ ] Next.js API `/api/guess` proxies to Python service
-- [ ] Replace mock feedback with real NLP
-- [ ] Script to pre-tag all quotes at seed time (store POS in DB)
+### Phase 2 — NLP Integration ✅ DONE (2026-05-27)
+- [x] Python FastAPI service with spaCy `en_core_web_md`
+- [x] `POST /analyze` endpoint: takes `{guess: string[], target: string[]}` → returns POS colors + distances
+- [x] Next.js API `/api/guess` proxies to Python service
+- [x] Replace mock feedback with real NLP
+- [x] Script to pre-tag all quotes at seed time (store POS in DB)
 
 ### Phase 3 — Polish + Prod Readiness
 - [ ] Share button (emoji grid like Wordle)

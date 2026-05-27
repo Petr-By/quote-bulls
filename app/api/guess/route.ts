@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDailyQuote, getQuoteById } from '@/lib/quotes';
-import { evaluateGuess } from '@/lib/game';
-import { mockPos } from '@/lib/db';
+
+const NLP_URL = process.env.NLP_SERVICE_URL ?? 'http://localhost:8000';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { quoteId, guessWords, mode } = body as {
+  const { quoteId, guessWords, mode, forceReveal } = body as {
     quoteId?: number;
     guessWords: string[];
     mode: 'daily' | 'free';
+    forceReveal?: boolean;
   };
 
   const quote = mode === 'free' && quoteId
@@ -26,15 +27,39 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Phase 1: mock POS for the guessed words
-  const guessPos = guessWords.map(mockPos);
+  // Call the Python NLP service
+  let nlpResult: { tiles: Array<{ color: string; distance: number }>; won: boolean };
+  try {
+    const nlpRes = await fetch(`${NLP_URL}/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        guess_words: guessWords,
+        target_words: quote.words,
+        target_pos: quote.pos,
+      }),
+    });
 
-  const result = evaluateGuess(guessWords, quote.words, quote.pos, guessPos);
+    if (!nlpRes.ok) {
+      const err = await nlpRes.text();
+      return NextResponse.json({ error: `NLP service error: ${err}` }, { status: 502 });
+    }
+
+    nlpResult = await nlpRes.json();
+  } catch {
+    return NextResponse.json(
+      { error: 'NLP service unavailable. Is the Python service running? (uvicorn main:app --port 8000)' },
+      { status: 503 }
+    );
+  }
+
+  const reveal = (nlpResult.won || forceReveal)
+    ? { text: quote.text, author: quote.author }
+    : null;
 
   return NextResponse.json({
-    tiles: result.tiles,
-    won: result.won,
-    // Reveal the quote only on win (or caller can request it on loss after max attempts)
-    reveal: result.won ? { text: quote.text, author: quote.author } : null,
+    tiles: nlpResult.tiles,
+    won: nlpResult.won,
+    reveal,
   });
 }
